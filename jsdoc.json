@@ -3,7 +3,7 @@
     "allowUnknownTags": false
   },
   "source": {
-    "include": ["lib/src/", "README.md"],
+    "include": ["lib/src/", "lib/README.md"],
     "includePattern": ".ts$",
     "excludePattern": "(node_modules/|docs)"
   },

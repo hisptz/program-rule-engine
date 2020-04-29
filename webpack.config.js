@@ -14,19 +14,19 @@ module.exports = {
   entry: './lib/src/index.ts',
   devtool: 'inline-source-map',
   optimization: {
-    minimizer: [new UglifyJsPlugin()]
+    minimizer: [new UglifyJsPlugin()],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
     filename: 'index.js',
@@ -34,22 +34,29 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    globalObject: "typeof self !== 'undefined' ? self : this"
+    globalObject: "typeof self !== 'undefined' ? self : this",
   },
   plugins: [
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { from: 'lib/package.json', to: '' },
       { from: 'lib/*.md', to: '', flatten: true },
-      { from: 'LICENSE', to: '' }
+      { from: 'LICENSE', to: '' },
     ]),
-    new TypedocWebpackPlugin({
-      name: 'Typescript Library',
-      mode: 'file',
-      out: '../docs',
-      theme: 'default',
-      includeDeclarations: false,
-      ignoreCompilerErrors: true
-    })
-  ]
+    new TypedocWebpackPlugin(
+      {
+        name: 'Typescript Library',
+        mode: 'file',
+        out: '../docs',
+        theme: 'default',
+        exclude: ['**/*.spec.ts'],
+        includeDeclarations: false,
+        ignoreCompilerErrors: true,
+        excludeExternals: true,
+        excludeNotExported: true,
+        excludePrivate: true,
+      },
+      './lib'
+    ),
+  ],
 };
