@@ -1,6 +1,6 @@
 # Program Rule Engine
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/maintainability)](https://codeclimate.com/github/hisptz/program-rule-engine/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/test_coverage)](https://codeclimate.com/github/hisptz/program-rule-engine/test_coverage)
+[![Build Status](https://travis-ci.org/hisptz/program-rule-engine.svg?branch=master)](https://travis-ci.org/hisptz/program-rule-engine) [![Maintainability](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/maintainability)](https://codeclimate.com/github/hisptz/program-rule-engine/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/test_coverage)](https://codeclimate.com/github/hisptz/program-rule-engine/test_coverage)
 
 Library to execute programs rules
 
