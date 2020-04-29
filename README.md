@@ -1,14 +1,8 @@
-# Typescript Library Starter
+# Program Rule Engine
 
-[![Build Status](https://travis-ci.org/rajey/typescript-library-starter.svg?branch=master)](https://travis-ci.org/rajey/typescript-library-starter) [![Maintainability](https://api.codeclimate.com/v1/badges/2453f31853bf80cca1cf/maintainability)](https://codeclimate.com/github/rajey/typescript-library-starter/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2453f31853bf80cca1cf/test_coverage)](https://codeclimate.com/github/rajey/typescript-library-starter/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/maintainability)](https://codeclimate.com/github/hisptz/program-rule-engine/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2bc583e8fdc99e5a9fa9/test_coverage)](https://codeclimate.com/github/hisptz/program-rule-engine/test_coverage)
 
-Typescript based boilerplate for developing javascript library in typescript. This lets you write your codes in typescript to take advantage of the language features and in the end build the library that can be accessed/used in following ways;
-
-- ES2015 module. i.e. `import <somethingFromLibrary> from 'libraryName'`
-
-- CommonJS module. i.e. `require('libraryName')`
-
-- Global variable when included through `script` tag
+Library to execute programs rules
 
 # Installation
 
