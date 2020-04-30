@@ -10,5 +10,8 @@
   "bugs": {
     "url": "https://github.com/rajey/typescript-library-starter/issues"
   },
-  "homepage": "https://github.com/rajey/typescript-library-starter#readme"
+  "homepage": "https://github.com/rajey/typescript-library-starter#readme",
+  "dependencies": {
+    "d2-utilizr": "^0.2.16"
+  }
 }
