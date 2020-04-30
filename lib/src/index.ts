@@ -1,1 +1,3 @@
-export { sum } from './sum';
+
+
+export default excuteRuleEngine;
