@@ -1,12 +1,14 @@
-import isString from 'd2-utilizr/lib/isString';
-import isDefined from 'd2-utilizr/lib/isDefined';
-import isNumber from 'd2-utilizr/lib/isNumber';
+// import isString from 'd2-utilizr/lib/isString';
+// import isDefined from 'd2-utilizr/lib/isDefined';
+// import isNumber from 'd2-utilizr/lib/isNumber';
 
 import typeKeys from '../constants/types-keys.constant';
 import mapTypeToInterfaceFnName from '../constants/types-to-interface-fn.constant';
 import trimQuotes from '../utils/trim-quotes.utils';
 import * as log from 'loglevel';
 import inputValueFnConverters from '../helpers/input-value.helper';
+import { isDefined, isNumber, isString } from './d2-utils.helper';
+import { ProgramRule, Variable } from '../interfaces/rules-engine.types';
 
 /**
  * @param  [] programRules
@@ -14,8 +16,8 @@ import inputValueFnConverters from '../helpers/input-value.helper';
  * @param  {} =>a.priority&&b.priority?a.priority-b.priority
  */
 
-export const orderRulesByPriority = programRules =>
-  programRules.sort((a, b) =>
+export const orderRulesByPriority = (programRules:ProgramRule[]) =>
+  programRules.sort((a:ProgramRule, b:ProgramRule) =>
     a.priority && b.priority ? a.priority - b.priority : !a.priority && !b.priority ? 0 : !a.priority ? 1 : -1
   );
 
@@ -24,8 +26,8 @@ export const orderRulesByPriority = programRules =>
  * @returns dataValue
  */
 
-export const convertToNumber = dataValue =>
-  isString(dataValue) ? (isNaN(dataValue) ? null : Number(dataValue)) : dataValue;
+export const convertToNumber = (dataValue:any) =>
+  isString(dataValue) ? (!isNumber(dataValue) ? null : Number(dataValue)) : dataValue;
 
 const DataByTypeMapping = {
   [typeKeys.BOOLEAN]: (value:any) => (isString(value) ? value === 'true' : value),
@@ -42,7 +44,7 @@ const DataByTypeMapping = {
  * @param  {} valueType
  */
 
-export const convertDataByType = (dataValue, valueType) => {
+export const convertDataByType = (dataValue:any, valueType:string) => {
   if (dataValue !== 0 && dataValue !== false && !dataValue) {
     return null;
   }
@@ -57,7 +59,7 @@ export const convertDataByType = (dataValue, valueType) => {
  * @returns {string} expression
  */
 
-export const replaceVariables = (expression: string, hashedVariable: any): string => {
+export const replaceVariables = (expression: string, variablesHash: {[x:string]: Variable}): string => {
   let evalExpression: string = expression;
 
   if (evalExpression.includes('{')) {
@@ -73,11 +75,11 @@ export const replaceVariables = (expression: string, hashedVariable: any): strin
         .replace('V{', '')
         .replace('}', '');
 
-      if (isDefined(hashedVariable[strippedExprVar])) {
+      if (isDefined(variablesHash[strippedExprVar])) {
         // Replace all occurrences of the variable name(hence using regex replacement):
         evalExpression = evalExpression.replace(
-          new RegExp(hashedVariable[strippedExprVar].variablePrefix + '\\{' + strippedExprVar + '\\}', 'g'),
-          hashedVariable[strippedExprVar].variableValue
+          new RegExp(variablesHash[strippedExprVar].variablePrefix + '\\{' + strippedExprVar + '\\}', 'g'),
+          variablesHash[strippedExprVar].variableValue
         );
       } else {
         log.warn(
@@ -96,7 +98,7 @@ export const replaceVariables = (expression: string, hashedVariable: any): strin
       // Strip away any prefix and postfix signs from the variable name
       const strippedExprVar = expressionVariable.replace('V{', '').replace('}', '');
 
-      if (isDefined(hashedVariable[strippedExprVar]) && hashedVariable[strippedExprVar].variablePrefix === 'V') {
+      if (isDefined(variablesHash[strippedExprVar]) && variablesHash[strippedExprVar].variablePrefix === 'V') {
         //Replace all occurrences of the variable name(hence using regex replacement):
         evalExpression = evalExpression.replace(
           new RegExp('V{' + strippedExprVar + '}', 'g'),
@@ -119,7 +121,7 @@ export const replaceVariables = (expression: string, hashedVariable: any): strin
       // Strip away any prefix and postfix signs from the variable name
       const strippedExprVar = expressionVariable.replace('A{', '').replace('}', '');
 
-      if (isDefined(hashedVariable[strippedExprVar]) && hashedVariable[strippedExprVar].variablePrefix === 'A') {
+      if (isDefined(variablesHash[strippedExprVar]) && variablesHash[strippedExprVar].variablePrefix === 'A') {
         //Replace all occurrences of the variable name(hence using regex replacement):
         evalExpression = evalExpression.replace(
           new RegExp('A{' + strippedExprVar + '}', 'g'),
@@ -136,7 +138,7 @@ export const replaceVariables = (expression: string, hashedVariable: any): strin
   return evalExpression;
 };
 
-export const determineValueType = value => {
+export const determineValueType = (value:any) => {
   let valueType = 'TEXT';
   if (value === 'true' || value === 'false') {
     valueType = 'BOOLEAN';

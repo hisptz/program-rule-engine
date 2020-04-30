@@ -1,9 +1,10 @@
 // @flow
-import isDefined from 'd2-utilizr/lib/isDefined';
 import * as log from 'loglevel';
 import { d2FuctionsVariables, d2FunctionsEval } from './d2-functions.helper';
+import { isDefined } from './d2-utils.helper';
+import { Variable } from '../interfaces/rules-engine.types';
 
-export const dhisD2Functions = (expression: string, variableHash: any): string => {
+export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Variable}): string => {
   let evalExpression = expression;
   if (isDefined && evalExpression.includes('d2:')) {
     let continueLooping = true;

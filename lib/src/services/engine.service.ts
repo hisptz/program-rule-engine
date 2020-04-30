@@ -1,6 +1,6 @@
 
 import { ruleExcutionService } from '../services/execution.service';
-import { EventData, ProgramRule, ProgramRuleVariable, DataElements, OptionSets } from '../interfaces/rules-engine.types';
+import { EventData, ProgramRule, ProgramRuleVariable, DataElements, OptionSets, EventValue } from '../interfaces/rules-engine.types';
 
 export const excuteRuleEnginer = (
     eventData: EventData,
@@ -10,7 +10,7 @@ export const excuteRuleEnginer = (
     optionSets: OptionSets
   ): EventData => {
     const { dataValues = [] } = eventData;
-    const eventValues = dataValues.reduce((acc, cur) => {
+    const eventValues = dataValues.reduce((acc:any, cur:EventValue) => {
       const { dataElement, value } = cur;
       acc[dataElement] = value;
       return acc;

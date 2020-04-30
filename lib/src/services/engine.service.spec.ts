@@ -2,10 +2,7 @@ import { excuteRuleEnginer } from './engine.service';
 
 describe('Execute Rules', () => {
     it('should sum two numbers', () => {
-      expect(excuteRuleEnginer({},
-        {},
-        [],
-        [],
-        {})).toEqual(3);
+      let results = excuteRuleEnginer({},{},[],[],{})
+      expect(results.dataValues.length).toEqual(0);
     });
   });

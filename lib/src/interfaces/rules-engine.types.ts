@@ -30,6 +30,7 @@ export interface ProgramRuleAction {
 export interface ProgramRule {
   id: string,
   condition: string,
+  priority: number,
   description?: string,
   displayName: string,
   programId: string,
@@ -89,9 +90,13 @@ export interface EventMain {
   enrollmentStatus: string,
   status: string,
   eventDate: string,
-  dueDate: string
+  dueDate: string,
+  dataValues: EventValue
 };
-
+export interface EventValue {
+  dataElement: string;
+  value: string;
+};
 export interface EventValues {
   [elementId: string]: any
 };
@@ -136,6 +141,15 @@ export interface OrgUnit {
   code: string
 };
 
+export type Variable = {
+  variableValue: any,
+  useCodeForOptionSet: boolean,
+  variableType: string,
+  hasValue: boolean,
+  variableEventDate?: string,
+  variablePrefix: string,
+  allValues?: any[]
+};
 export interface DateUtils {
   getToday: () => string,
   daysBetween: (firstRulesDate: string, secondRulesDate: string) => string,

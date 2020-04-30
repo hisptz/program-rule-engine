@@ -3,7 +3,7 @@ import { IConvertInputRulesValue } from '../interfaces/rules-engine.types';
 
 const dateMomentFormat = 'YYYY-MM-DD';
 
-const functionConvertors = {
+const functionConvertors:any = {
   convertText: (value: any): string => {
     return value || '';
   },

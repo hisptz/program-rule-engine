@@ -35,7 +35,7 @@ export const d2FuctionsVariables: Array<{ name: string, parameters?: number }> =
   { name: 'd2:length', parameters: 1 }
 ];
 
-export const d2FunctionsEval = {
+export const d2FunctionsEval:{[x:string]:Function} = {
   'd2:hasValue': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
     const [variableName, ...rest] = parameters;
     const variableObject = variableHash[variableName];
@@ -348,7 +348,7 @@ export const d2FunctionsEval = {
   },
   'd2:zScoreWFA': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, getZScoreWFA(parameters[0], parameters[1], parameters[2]));
+    const newExpression = expression.replace(regexFunct, getZScoreWFA(parseFloat(parameters[0]), parseFloat(parameters[1]), parameters[2]));
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },

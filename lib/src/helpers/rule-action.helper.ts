@@ -4,9 +4,9 @@ import { ProgramRuleAction, EventData } from '../interfaces/rules-engine.types';
 import { replaceVariables, processValue } from '../helpers/rules-engine.helper';
 import { runRuleExpression } from './run-expression.helper';
 import trimQuotes from '../utils/trim-quotes.utils';
-import * as isString from 'd2-utilizr/lib/isString';
 import * as log from 'loglevel';
 import typeKeys from '../constants/types-keys.constant';
+import { isString } from './d2-utils.helper';
 
 const getRuleData = (action: any, variablesHash: any): string => {
   const actionData: string = action.data;

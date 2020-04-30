@@ -5,7 +5,7 @@ import trimQuotes from './trim-quotes.utils';
 
 const momentFormat = 'YYYY-MM-DD';
 
-const between = (unit: string, firstRulesDate: string, secondRulesDate: string) => {
+const between = (unit: any, firstRulesDate: string, secondRulesDate: string) => {
   const firsRulesDateTrimmed = trimQuotes(firstRulesDate);
   const secondRulesDateTrimmed = trimQuotes(secondRulesDate);
   const firstDate = moment(firsRulesDateTrimmed, momentFormat);

@@ -2,8 +2,6 @@
 import typeKeys from '../constants/types-keys.constant';
 import * as mapTypeToInterfaceFnName from '../constants/types-to-interface-fn.constant';
 import * as log from 'loglevel';
-import isNumber from 'd2-utilizr/lib/isNumber';
-import isString from 'd2-utilizr/lib/isString';
 
 import {
   EventData,
@@ -12,7 +10,8 @@ import {
   DataElements,
   ProgramRuleVariable,
   Constant,
-  OptionSets
+  OptionSets,
+  Variable
 } from '../interfaces/rules-engine.types';
 import variablePrefixes from '../constants/variable-prefix.constant';
 
@@ -20,21 +19,11 @@ import { getoptionSetName } from '../utils/options.utils';
 import trimQuotes from '../utils/trim-quotes.utils';
 import { processValue } from '../helpers/rules-engine.helper';
 
-type Variable = {
-  variableValue: any,
-  useCodeForOptionSet: boolean,
-  variableType: string,
-  hasValue: boolean,
-  variableEventDate?: string,
-  variablePrefix: string,
-  allValues?: any[]
-};
-
 const EMPTY_STRING = '';
 
 const DATAELEMENT_CURRENT_EVENT = 'DATAELEMENT_CURRENT_EVENT';
 
-const variableSourceTypesDataElementSpecific = {
+const variableSourceTypesDataElementSpecific:{[x:string]:string} = {
   DATAELEMENT_CURRENT_EVENT
 };
 
@@ -65,7 +54,7 @@ const getDataElementValueForVariable = (
   dataElementId: string,
   useNameForOptionSet?: boolean,
   dataElements?: DataElements,
-  optionSets: OptionSets
+  optionSets?: OptionSets
 ) => {
   const hasValue = !!value || value === 0 || value === false;
   return hasValue &&
@@ -115,8 +104,8 @@ export const getVariableFromCurrentEvent = (
   );
 };
 
-export const functionMapper = {
-  [DATAELEMENT_CURRENT_EVENT]: getVariableFromCurrentEvent
+export const functionMapper:{[x:string]:Function} = {
+  "DATAELEMENT_CURRENT_EVENT": getVariableFromCurrentEvent
 };
 
 export const getVariables = (
@@ -126,7 +115,7 @@ export const getVariables = (
   dataElements: DataElements,
   optionSets: OptionSets
 ) => {
-  const variables = programRuleVariables.reduce((accVariables = {}, currentRuleVariable: ProgramRuleVariable) => {
+  const variables = programRuleVariables.reduce((accVariables:any = {}, currentRuleVariable: ProgramRuleVariable) => {
     let variable;
     const { programRuleVariableSourceType } = currentRuleVariable;
     const variableKey: string = currentRuleVariable.displayName;
