@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rajey/typescript-library-starter.git"
+    "url": "git+https://github.com/hisptz/program-rule-engine.git"
   },
   "author": "Rajab Mkomwa",
   "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/rajey/typescript-library-starter/issues"
+    "url": "https://github.com/hisptz/program-rule-engine/issues"
   },
-  "homepage": "https://github.com/rajey/typescript-library-starter#readme",
+  "homepage": "https://github.com/hisptz/program-rule-engine#readme",
   "peerDependencies": {
     "d2-utilizr": "^0.2.16"
   }
