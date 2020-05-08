@@ -5,6 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 const { env } = require('yargs').argv;
 const package = require('./package.json');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const isProduction = env === 'prod';
 const libraryName = package.name;
@@ -14,7 +15,7 @@ module.exports = {
   entry: './lib/src/index.ts',
   devtool: 'inline-source-map',
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [new TerserPlugin()],
   },
   module: {
     rules: [
