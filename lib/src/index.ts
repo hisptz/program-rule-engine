@@ -1,3 +1,3 @@
+import { excuteRuleEnginer} from "./services/engine.service";
 
-
-export default excuteRuleEngine;
+export default excuteRuleEnginer;
