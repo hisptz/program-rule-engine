@@ -8,7 +8,7 @@ import {
   EventValue,
 } from '../interfaces/rules-engine.types';
 
-export const executeProgramRules = (
+export const execute = (
   eventData: EventData,
   dataElements: DataElements,
   programRules: ProgramRule[],

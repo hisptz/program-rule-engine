@@ -8,7 +8,6 @@ const package = require('./package.json');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const isProduction = env === 'prod';
-const libraryName = package.name;
 
 module.exports = {
   mode: isProduction ? 'production' : 'development',
@@ -31,7 +30,7 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    library: libraryName,
+    library: 'd2Rule',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
