@@ -1,3 +1,3 @@
-import { excuteRuleEnginer} from "./services/engine.service";
+import { executeProgramRules } from './services/engine.service';
 
-export default excuteRuleEnginer;
+export default executeProgramRules;

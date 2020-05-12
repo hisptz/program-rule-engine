@@ -1,5 +1,5 @@
 {
-  "name": "program-rule-engine",
+  "name": "dhis2-program-rule-engine",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -8,7 +8,8 @@
     "start": "webpack-dev-server --env dev",
     "build": "webpack --env prod",
     "test": "jest",
-    "docs": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "docs": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "publish": "npm run build && cd dist && npm publish --access public"
   },
   "repository": {
     "type": "git",
