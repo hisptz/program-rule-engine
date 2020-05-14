@@ -30,7 +30,7 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    library: 'd2Rule',
+    library: 'D2Rule',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
