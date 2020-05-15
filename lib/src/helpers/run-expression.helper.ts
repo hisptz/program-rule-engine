@@ -88,6 +88,6 @@ export const runRuleExpression = (
 
     return canEvalRule;
   }catch(e){
-    return null;
+    return false;
   }
 };
