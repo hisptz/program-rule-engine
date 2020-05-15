@@ -9,7 +9,8 @@
     "allowJs": true,
     "removeComments": true,
     "noEmit": false,
-    "declaration": true
+    "declaration": true,
+    "resolveJsonModule": true
   },
   "exclude": ["**/*.spec.ts", "node_modules"]
 }

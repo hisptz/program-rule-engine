@@ -16,10 +16,10 @@ export interface ProgramRuleEffect {
 
 export interface ProgramRuleAction {
   id: string;
-  content: string;
+  content?: string;
   data?: string;
   location?: string;
-  programRuleActionType: string;
+  programRuleActionType?: string;
   dataElementId?: string;
   dataElement?: any;
   programStageId?: string;
@@ -27,27 +27,43 @@ export interface ProgramRuleAction {
   trackedEntityAttributeId?: string;
 }
 
-export interface ProgramRule {
+export interface User {
   id: string;
-  condition: string;
-  priority: number;
+}
+
+export interface ProgramStage {
+  id: string;
+}
+
+export interface Program {
+  id: string;
+}
+export interface ProgramRule {
+  created?: string;
+  lastUpdated?: string;
+  name?: string;
+  id: string;
   description?: string;
-  displayName: string;
-  programId: string;
-  programStageId?: string;
-  programRuleActions: Array<ProgramRuleAction>;
+  priority?: number;
+  condition?: string;
+  lastUpdatedBy?: User;
+  programStage?: ProgramStage;
+  program?: Program;
+  programRuleActions?: ProgramRuleAction[];
 }
 
 export interface ProgramRuleVariable {
   id: string;
-  displayName: string;
+  displayName?: string;
   programRuleVariableSourceType: string;
-  programId: string;
-  dataElementId?: string;
   dataElement?: { id: string };
-  trackedEntityAttributeId?: string;
-  programStageId?: string;
+  trackedEntityAttribute?: { id: string };
+  programStage?: { id: string };
   useNameForOptionSet?: boolean;
+  name?: string;
+  useCodeForOptionSet?: boolean;
+  lastUpdatedBy?: { id: string };
+  program?: { id: string };
 }
 
 export interface Option {
@@ -79,18 +95,18 @@ export interface ProgramRulesContainer {
 }
 
 export interface EventMain {
-  eventId: string;
-  programId: string;
-  programStageId: string;
-  orgUnitId: string;
-  orgUnitName: string;
-  trackedEntityInstanceId: string;
-  enrollmentId: string;
-  enrollmentStatus: string;
+  event: string;
+  program: string;
+  programStage: string;
+  orgUnit: string;
+  orgUnitName?: string;
+  trackedEntityInstance: string;
+  enrollment: string;
+  enrollmentStatus?: string;
   status: string;
   eventDate: string;
   dueDate: string;
-  dataValues: EventValue;
+  dataValues: EventValue[];
 }
 export interface EventValue {
   dataElement: string;

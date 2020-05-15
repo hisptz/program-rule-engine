@@ -30,7 +30,7 @@ export const ruleExcutionService = (
       canRuleEvaluate = runRuleExpression(expression, rule.condition, `rule:${rule.id}`, variableHash);
     } else {
       console.warn(
-        `Rule id: ${rule.id} and name: ${rule.displayName} had no condition specified. Please check rule configuration.`
+        `Rule id: ${rule.id} and name: ${rule.name} had no condition specified. Please check rule configuration.`
       );
     }
 

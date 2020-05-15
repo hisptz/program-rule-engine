@@ -82,8 +82,12 @@ export const runRuleExpression = (
   identifier: string,
   variablesHash: any
 ) => {
-  const dhisfunctionsevaluated = dhisD2Functions(expression, variablesHash);
-  const canEvalRule = eval(dhisfunctionsevaluated);
+  const dhisfunctionsevaluated: string = dhisD2Functions(expression, variablesHash);
+  try{
+    const canEvalRule = eval(dhisfunctionsevaluated);
 
-  return canEvalRule;
+    return canEvalRule;
+  }catch(e){
+    return null;
+  }
 };
