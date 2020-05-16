@@ -107,9 +107,9 @@ export const replaceVariables = (
           variablesHash[strippedExprVar].variableValue
         );
       } else {
-        log.warn(
-          `Expression ${evalExpression} contains variable ${strippedExprVar} - but this variable is not defined.`
-        );
+        // log.warn(
+        //   `Expression ${evalExpression} contains variable ${strippedExprVar} - but this variable is not defined.`
+        // );
       }
     });
   }
@@ -135,9 +135,9 @@ export const replaceVariables = (
           variablesHash[strippedExprVar].variableValue
         );
       } else {
-        log.warn(
-          `Expression ${evalExpression} contains context variable  ${strippedExprVar} - but this variable is not defined.`
-        );
+        // log.warn(
+        //   `Expression ${evalExpression} contains context variable  ${strippedExprVar} - but this variable is not defined.`
+        // );
       }
     });
   }
@@ -163,9 +163,9 @@ export const replaceVariables = (
           variablesHash[strippedExprVar].variableValue
         );
       } else {
-        log.warn(
-          `Expression ${evalExpression} conains attribute  ${strippedExprVar} - but this attribute is not defined.`
-        );
+        // log.warn(
+        //   `Expression ${evalExpression} conains attribute  ${strippedExprVar} - but this attribute is not defined.`
+        // );
       }
     });
   }
@@ -197,7 +197,7 @@ export const processValue = (value: any, type: string) => {
 
   const convertFnName = mapTypeToInterfaceFnName[type];
   if (!convertFnName) {
-    log.warn(`Error in converting this value of type ${type}`);
+    // log.warn(`Error in converting this value of type ${type}`);
     return value;
   }
 

@@ -6,7 +6,10 @@ import getZScoreWFA from '../services/z-score-wfa.service';
 import trimQuotes from '../utils/trim-quotes.utils';
 import { processValue } from './rules-engine.helper';
 
-export const d2FuctionsVariables: Array<{ name: string, parameters?: number }> = [
+export const d2FuctionsVariables: Array<{
+  name: string;
+  parameters?: number;
+}> = [
   { name: 'd2:daysBetween', parameters: 2 },
   { name: 'd2:weeksBetween', parameters: 2 },
   { name: 'd2:monthsBetween', parameters: 2 },
@@ -32,11 +35,16 @@ export const d2FuctionsVariables: Array<{ name: string, parameters?: number }> =
   { name: 'd2:substring', parameters: 3 },
   { name: 'd2:split', parameters: 3 },
   { name: 'd2:zScoreWFA', parameters: 3 },
-  { name: 'd2:length', parameters: 1 }
+  { name: 'd2:length', parameters: 1 },
 ];
 
-export const d2FunctionsEval:{[x:string]:Function} = {
-  'd2:hasValue': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+export const d2FunctionsEval: { [x: string]: Function } = {
+  'd2:hasValue': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [variableName, ...rest] = parameters;
     const variableObject = variableHash[variableName];
 
@@ -47,14 +55,19 @@ export const d2FunctionsEval:{[x:string]:Function} = {
         valueFound = true;
       }
     } else {
-      log.warn('could not find variable to check if has value: ' + variableName);
+      // log.warn('could not find variable to check if has value: ' + variableName);
     }
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, valueFound);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:daysBetween': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:daysBetween': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date1, date2] = parameters;
     const daysBetween = dateUtils.daysBetween(date1, date2);
     //Replace the end evaluation of the dhis function:
@@ -62,7 +75,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:weeksBetween': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:weeksBetween': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date1, date2] = parameters;
     const weeksBetween = dateUtils.weeksBetween(date1, date2);
     //Replace the end evaluation of the dhis function:
@@ -70,7 +88,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:monthsBetween': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:monthsBetween': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date1, date2] = parameters;
     const monthsBetween = dateUtils.monthsBetween(date1, date2);
     //Replace the end evaluation of the dhis function:
@@ -78,7 +101,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:yearsBetween': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:yearsBetween': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date1, date2] = parameters;
     const yearsBetween = dateUtils.yearsBetween(date1, date2);
     //Replace the end evaluation of the dhis function:
@@ -86,7 +114,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:floor': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:floor': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date1, ...rest] = parameters;
     const floored = Math.floor(date1);
     //Replace the end evaluation of the dhis function:
@@ -94,7 +127,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:modulus': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:modulus': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [dividend, divisor] = parameters;
     const rest = Number(dividend) % Number(divisor);
     //Replace the end evaluation of the dhis function:
@@ -102,7 +140,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:concatenate': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:concatenate': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     let returnString = "'";
     for (var i = 0; i < parameters.length; i++) {
       returnString += parameters[i];
@@ -114,7 +157,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:addDays': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:addDays': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [date, daysToAdd] = parameters;
     const newDate = dateUtils.addDays(date, daysToAdd);
     //Replace the end evaluation of the dhis function:
@@ -122,34 +170,56 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:zing': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:zing': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const numBer = parameters[0] < 0 ? 0 : parameters[0];
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, numBer);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:oizp': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:oizp': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const numBer = parameters[0] < 0 ? 0 : 1;
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, numBer);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:count': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:count': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const [variableName, ..._] = parameters;
     const variableObject = variableHash[variableName];
     const count =
-      variableObject && variableObject.hasValue && variableObject.allValues ? variableObject.allValues.length : 0;
+      variableObject && variableObject.hasValue && variableObject.allValues
+        ? variableObject.allValues.length
+        : 0;
     if (!variableObject) {
-      log.warn('could not find variable to count: ' + variableName);
+      // log.warn('could not find variable to count: ' + variableName);
     }
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, count);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:countIfZeroPos': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:countIfZeroPos': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const variableName = trimQuotes(parameters[0]);
     const variableObject = variableHash[variableName];
     let count = 0;
@@ -169,17 +239,25 @@ export const d2FunctionsEval:{[x:string]:Function} = {
         }
       }
     } else {
-      log.warn('could not find variable to countifzeropos: ' + variableName);
+      // log.warn('could not find variable to countifzeropos: ' + variableName);
     }
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, count);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:countIfValue': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:countIfValue': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const variableName = trimQuotes(parameters[0]);
     const variableObject = variableHash[variableName];
-    const valueToCompare = processValue(parameters[1], variableObject.variableType);
+    const valueToCompare = processValue(
+      parameters[1],
+      variableObject.variableType
+    );
     let count = 0;
     if (variableObject) {
       if (variableObject.hasValue) {
@@ -197,26 +275,47 @@ export const d2FunctionsEval:{[x:string]:Function} = {
         }
       }
     } else {
-      log.warn('could not find variable to countifzeropos: ' + variableName);
+      // log.warn('could not find variable to countifzeropos: ' + variableName);
     }
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, count);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:ceil': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:ceil': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, Math.ceil(parameters[0]));
+    const newExpression = expression.replace(
+      regexFunct,
+      Math.ceil(parameters[0])
+    );
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:round': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:round': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, Math.round(parameters[0]));
+    const newExpression = expression.replace(
+      regexFunct,
+      Math.round(parameters[0])
+    );
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:lastEventDate': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:lastEventDate': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const variableName = parameters[0];
     const variableObject = variableHash[variableName];
     let valueFound = "''";
@@ -224,10 +323,12 @@ export const d2FunctionsEval:{[x:string]:Function} = {
       if (variableObject.variableEventDate) {
         valueFound = processValue(variableObject.variableEventDate, 'DATE');
       } else {
-        log.warn('no last event date found for variable: ' + variableName);
+        // log.warn('no last event date found for variable: ' + variableName);
       }
     } else {
-      log.warn('could not find variable to check last event date: ' + variableName);
+      // log.warn(
+      //   'could not find variable to check last event date: ' + variableName
+      // );
     }
 
     //Replace the end evaluation of the dhis function:
@@ -235,20 +336,31 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:validatePattern': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:validatePattern': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const inputToValidate = parameters[0].toString();
     const pattern = parameters[1];
     const regEx = new RegExp(pattern, 'g');
     const match = inputToValidate.match(regEx);
 
-    const matchFound = match !== null && inputToValidate === match[0] ? true : false;
+    const matchFound =
+      match !== null && inputToValidate === match[0] ? true : false;
 
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, matchFound);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:addControlDigits': (expression: any, parameters: Array<any>, variableHash: any, regexFunct: string) => {
+  'd2:addControlDigits': (
+    expression: any,
+    parameters: Array<any>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const baseNumber = parameters[0];
     let newExpression;
     const baseDigits = baseNumber.split('');
@@ -279,20 +391,28 @@ export const d2FunctionsEval:{[x:string]:Function} = {
       secondDigit = secondSum % 11;
 
       if (firstDigit === 10) {
-        log.warn('First control digit became 10, replacing with 0');
+        // log.warn('First control digit became 10, replacing with 0');
         firstDigit = 0;
       }
       if (secondDigit === 10) {
-        log.warn('Second control digit became 10, replacing with 0');
+        // log.warn('Second control digit became 10, replacing with 0');
         secondDigit = 0;
       }
     } else {
-      log.warn('Base nuber not well formed(' + baseNumberLength + ' digits): ' + baseNumber);
+      // log.warn(
+      //   'Base nuber not well formed(' +
+      //     baseNumberLength +
+      //     ' digits): ' +
+      //     baseNumber
+      // );
     }
 
     if (!error) {
       //Replace the end evaluation of the dhis function:
-      newExpression = expression.replace(regexFunct, baseNumber + firstDigit + secondDigit);
+      newExpression = expression.replace(
+        regexFunct,
+        baseNumber + firstDigit + secondDigit
+      );
     } else {
       //Replace the end evaluation of the dhis function:
       newExpression = expression.replace(regexFunct, baseNumber);
@@ -300,33 +420,58 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:checkControlDigits': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
-    log.warn('checkControlDigits not implemented yet');
+  'd2:checkControlDigits': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
+    // log.warn('checkControlDigits not implemented yet');
 
     //Replace the end evaluation of the dhis function:
     const newExpression = expression.replace(regexFunct, parameters[0]);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:left': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:left': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const string = String(parameters[0]);
-    const numChars = string.length < parameters[1] ? string.length : parameters[1];
+    const numChars =
+      string.length < parameters[1] ? string.length : parameters[1];
     let returnString = string.substring(0, numChars);
     returnString = processValue(returnString, 'TEXT');
     const newExpression = expression.replace(regexFunct, returnString);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:right': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:right': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const string = String(parameters[0]);
-    const numChars = string.length < parameters[1] ? string.length : parameters[1];
-    let returnString = string.substring(string.length - numChars, string.length);
+    const numChars =
+      string.length < parameters[1] ? string.length : parameters[1];
+    let returnString = string.substring(
+      string.length - numChars,
+      string.length
+    );
     returnString = processValue(returnString, 'TEXT');
     const newExpression = expression.replace(regexFunct, returnString);
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:substring': (expression: any, parameters: Array<number>, variableHash: any, regexFunct: string) => {
+  'd2:substring': (
+    expression: any,
+    parameters: Array<number>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     const string = String(parameters[0]);
     const startChar = string.length < parameters[1] - 1 ? -1 : parameters[1];
     const endChar = string.length < parameters[2] ? -1 : parameters[2];
@@ -335,27 +480,58 @@ export const d2FunctionsEval:{[x:string]:Function} = {
     if (startChar < 0 || endChar < 0) {
       expression = expression.replace(regexFunct, "''");
     } else {
-      const returnString = processValue(string.substring(startChar, endChar), 'TEXT');
+      const returnString = processValue(
+        string.substring(startChar, endChar),
+        'TEXT'
+      );
       expression = expression.replace(regexFunct, returnString);
     }
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:split': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:split': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, String(parameters[0]).length);
+    const newExpression = expression.replace(
+      regexFunct,
+      String(parameters[0]).length
+    );
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:zScoreWFA': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:zScoreWFA': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, getZScoreWFA(parseFloat(parameters[0]), parseFloat(parameters[1]), parameters[2]));
+    const newExpression = expression.replace(
+      regexFunct,
+      getZScoreWFA(
+        parseFloat(parameters[0]),
+        parseFloat(parameters[1]),
+        parameters[2]
+      )
+    );
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
   },
-  'd2:length': (expression: any, parameters: Array<string>, variableHash: any, regexFunct: string) => {
+  'd2:length': (
+    expression: any,
+    parameters: Array<string>,
+    variableHash: any,
+    regexFunct: string
+  ) => {
     //Replace the end evaluation of the dhis function:
-    const newExpression = expression.replace(regexFunct, String(parameters[0]).length);
+    const newExpression = expression.replace(
+      regexFunct,
+      String(parameters[0]).length
+    );
     const expressionUpdated = true;
     return { expression: newExpression, expressionUpdated };
-  }
+  },
 };
