@@ -12,15 +12,18 @@ describe('Given empty parameters passed into rule engine', () => {
 describe('Given parameters passed into rule engine', () => {
   it('should return results', () => {
     const event: EventMain = {
-      event: 'x97zLAGU4v3',
-      eventDate: '2020-05-13',
-      dueDate: '2020-05-13',
+      event: 'RDN4rGluNF2',
+      eventDate: '2020-05-16',
+      dueDate: '2020-05-16',
       program: 'uYjxkTbwRNf',
       programStage: 'LpWNjNGvCO5',
       orgUnit: 'SuoqM5pXPWG',
       trackedEntityInstance: 'AARpsSAjhf5',
       status: 'ACTIVE',
-      dataValues: [],
+      dataValues: [
+        { dataElement: 'EWZcuvPOrJF', value: 'Yes' },
+        { dataElement: 'Bt9xOiBUuDW', value: 'Yes' },
+      ],
       enrollment: 'qXhdXchArOT',
     };
     const dataElements:any = {
@@ -3827,6 +3830,6 @@ describe('Given parameters passed into rule engine', () => {
       {}
     );
     console.log('Results:',results);
-    expect(results.dataValues.length).toEqual(0);
+    expect(results.dataValues.length).toEqual(2);
   });
 });
