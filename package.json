@@ -23,10 +23,10 @@
   "homepage": "https://github.com/rajey/typescript-library-starter#readme",
   "devDependencies": {
     "@types/jest": "^25.2.2",
-    "@types/lodash": "^4.14.138",
+    "@types/lodash": "^4.14.151",
     "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.0.4",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.0.0",
     "cz-conventional-changelog": "^3.0.2",
     "docdash": "^1.1.1",
     "husky": "^4.2.5",

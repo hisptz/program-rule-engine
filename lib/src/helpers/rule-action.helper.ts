@@ -23,7 +23,12 @@ const getRuleData = (action: any, variablesHash: any): string => {
     //Now we will have to make a thorough replacement and separate evaluation to find the correct value:
     ruleDataEval = replaceVariables(actionData, variablesHash);
     //In a scenario where the data contains a complex expression, evaluate the expression to compile(calculate) the result:
-    ruleDataEval = runRuleExpression(ruleDataEval, actionData, `actions: ${action.id}`, variablesHash);
+    ruleDataEval = runRuleExpression(
+      ruleDataEval,
+      actionData,
+      `actions: ${action.id}`,
+      variablesHash
+    );
   }
 
   //trimQuotes if found
@@ -43,14 +48,20 @@ const buildAssignVariable = (variableHash: any, variableValue: any) => {
     hasValue: true,
     variableEventDate: '',
     variablePrefix: variablePrefix ? variablePrefix : '#',
-    allValues: [variableValue]
+    allValues: [variableValue],
   };
 };
 
-const ruleActionEval = (action: ProgramRuleAction, variableHash: any, eventData: EventData): any => {
+const ruleActionEval = (
+  action: ProgramRuleAction,
+  variableHash: any,
+  eventData: EventData
+): any => {
   const { programRuleActionType, data, content, dataElement } = action;
   const dataElementId = dataElement && dataElement.id;
-  const actionData: string = data ? getRuleData(action, variableHash) : String(data);
+  const actionData: string = data
+    ? getRuleData(action, variableHash)
+    : String(data);
 
   let newVariableHash = variableHash;
 
@@ -64,12 +75,17 @@ const ruleActionEval = (action: ProgramRuleAction, variableHash: any, eventData:
     if (variableObject) {
       const { variableType, variablePrefix } = variableObject;
       const baseValue = processValue(actionData, variableType);
-      variableHash[variableToAssign] = buildAssignVariable(variableObject, baseValue);
-      const variableValue = isString(baseValue) ? `${trimQuotes(baseValue)}` : baseValue;
+      variableHash[variableToAssign] = buildAssignVariable(
+        variableObject,
+        baseValue
+      );
+      const variableValue = isString(baseValue)
+        ? `${trimQuotes(baseValue)}`
+        : baseValue;
       eventData.dataValues[dataElementId] = variableValue;
     } else {
       //If a variable is mentioned in the content of the rule, but does not exist in the variables hash, show a warning:
-      log.warn('Variable ' + variableToAssign + ' was not defined.');
+      // log.warn('Variable ' + variableToAssign + ' was not defined.');
     }
   }
 
