@@ -1,13 +1,13 @@
 import * as fixture from './fixture-metadata.json';
-import { execute } from '../src/services/engine.service';
-import { EventMain } from '../src/interfaces/rules-engine.types.js';
+import { execute, executeWithAction } from '../src/services/engine.service';
+import { EventMain, ProgramRuleAction } from '../src/interfaces/rules-engine.types.js';
 
-describe('Given empty parameters passed into rule engine', () => {
+/*describe('Given empty parameters passed into rule engine', () => {
   it('should have no errors', () => {
     let results = execute({}, {}, [], [], {});
     expect(results.dataValues.length).toEqual(0);
   });
-});
+});*/
 
 describe('Given parameters passed into rule engine', () => {
   it('should return results', () => {
@@ -3822,14 +3822,19 @@ describe('Given parameters passed into rule engine', () => {
         },
       },
     };
-    let results = execute(
+    const optionSets = {};
+    fixture.optionSets.forEach((optionSet)=>{
+      //console.log(optionSet);
+    })
+    let results: ProgramRuleAction[] = executeWithAction(
       event,
       dataElements,
       fixture.programRules,
       fixture.programRuleVariables,
-      {}
+      fixture.programRuleActions,
+      optionSets
     );
     console.log('Results:',results);
-    expect(results.dataValues.length).toEqual(2);
+    expect(results.length).toEqual(0);
   });
 });

@@ -13,19 +13,39 @@ export interface ProgramRuleEffect {
   data?: string;
   ineffect: boolean;
 }
-
 export interface ProgramRuleAction {
-  id: string;
-  content?: string;
-  data?: string;
-  location?: string;
-  programRuleActionType?: string;
-  dataElementId?: string;
-  dataElement?: any;
-  programStageId?: string;
-  programStageSectionId?: string;
-  trackedEntityAttributeId?: string;
+  created?:                 string;
+  lastUpdated?:             string;
+  id:                      string;
+  programRuleActionType?:   string;
+  data?:                   string;
+  lastUpdatedBy?:           {id: string;};
+  trackedEntityAttribute?: {id: string;};
+  programRule?:             {id: string;};
+  dataElement?:            {id: string;};
+  content?:                string;
+  optionGroup?:            {id: string;};
+  templateUid?:            string;
+  location?:               string;
+  programStageSection?:    {id: string;};
+  programStage?:           {id: string;};
 }
+
+export enum ProgramRuleActionType {
+  Assign = "ASSIGN",
+  Displaykeyvaluepair = "DISPLAYKEYVALUEPAIR",
+  Displaytext = "DISPLAYTEXT",
+  Hidefield = "HIDEFIELD",
+  Hideoptiongroup = "HIDEOPTIONGROUP",
+  Hideprogramstage = "HIDEPROGRAMSTAGE",
+  Hidesection = "HIDESECTION",
+  Schedulemessage = "SCHEDULEMESSAGE",
+  Sendmessage = "SENDMESSAGE",
+  Showerror = "SHOWERROR",
+  Showwarning = "SHOWWARNING",
+  Warningoncomplete = "WARNINGONCOMPLETE",
+}
+
 
 export interface User {
   id: string;

@@ -2,6 +2,7 @@
 import {
   ProgramRule,
   ProgramRuleVariable,
+  ProgramRuleAction,
   EventData,
   DataElements,
   OptionSets,
@@ -35,8 +36,6 @@ export const ruleExcutionService = (
     optionSets
   );
 
-  console.log('PROGRAM RULES::' + JSON.stringify(programRules));
-
   rules.forEach((rule) => {
     let { condition: expression, programRuleActions } = rule;
     let canRuleEvaluate = false;
@@ -66,4 +65,55 @@ export const ruleExcutionService = (
   });
 
   return eventData;
+};
+
+export const ruleExcutionWithActionService = (
+  eventData: EventData,
+  dataElements: DataElements,
+  programRules: Array<ProgramRule>,
+  programRuleVariables: Array<ProgramRuleVariable>,
+  allProgramRuleActions: ProgramRuleAction[],
+  optionSets: OptionSets
+) => {
+  let actions: ProgramRuleAction[] = []
+  if (!programRules.length) {
+    return actions;
+  }
+
+  const rules: ProgramRule[] = orderRulesByPriority(programRules);
+  let variableHash = getVariables(
+    eventData,
+    programRules,
+    programRuleVariables,
+    dataElements,
+    optionSets
+  );
+
+  rules.forEach((rule) => {
+    let { condition: expression, programRuleActions } = rule;
+    let canRuleEvaluate = false;
+    if (expression) {
+      if (expression.includes('{')) {
+        expression = replaceVariables(expression, variableHash);
+      }
+      canRuleEvaluate = runRuleExpression(
+        expression,
+        rule.condition,
+        `rule:${rule.id}`,
+        variableHash
+      );
+    } else {
+      // console.warn(
+      //   `Rule id: ${rule.id} and name: ${rule.name} had no condition specified. Please check rule configuration.`
+      // );
+    }
+
+    if (canRuleEvaluate) {
+      programRuleActions.forEach((action) => {
+        actions = actions.concat(allProgramRuleActions.filter((programRuleAction)=>programRuleAction.id===action.id));
+      });
+    }
+  });
+
+  return actions;
 };
