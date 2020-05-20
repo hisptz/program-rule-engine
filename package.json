@@ -48,7 +48,7 @@
     "d2-utilizr": "^0.2.16",
     "lodash": "^4.17.15",
     "loglevel": "^1.6.8",
-    "moment": "^2.24.0"
+    "moment": "^2.26.0"
   },
   "config": {
     "commitizen": {
