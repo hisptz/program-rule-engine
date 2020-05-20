@@ -96,6 +96,9 @@ export const ruleExcutionWithActionService = (
       if (expression.includes('{')) {
         expression = replaceVariables(expression, variableHash);
       }
+      if(rule.id === 'MKx0MWOs8ET'){
+        console.log(expression);
+      }
       canRuleEvaluate = runRuleExpression(
         expression,
         rule.condition,
@@ -107,7 +110,6 @@ export const ruleExcutionWithActionService = (
       //   `Rule id: ${rule.id} and name: ${rule.name} had no condition specified. Please check rule configuration.`
       // );
     }
-
     if (canRuleEvaluate) {
       programRuleActions.forEach((action) => {
         actions = actions.concat(allProgramRuleActions.filter((programRuleAction)=>programRuleAction.id===action.id));

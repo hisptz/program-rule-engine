@@ -79,13 +79,14 @@ export const replaceVariables = (
   variablesHash: { [x: string]: Variable }
 ): string => {
   let evalExpression: string = expression;
-  console.log(expression);
 
   if (evalExpression.includes('{')) {
     // Get every variable name in the expression;
     const variablesInexpression = evalExpression.match(/[A#CV]\{[\w -_.]+}/g);
 
+    console.log(variablesHash);
     variablesInexpression.forEach((expressionVariable) => {
+      console.log('expressionVariable:', expressionVariable);
       // Strip away any prefix and postfix signs from the variable name
       const strippedExprVar = expressionVariable
         .replace('#{', '')
@@ -112,6 +113,7 @@ export const replaceVariables = (
         // );
       }
     });
+    console.log(evalExpression);
   }
 
   // Check if it has enviroment variable

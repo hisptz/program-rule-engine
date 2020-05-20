@@ -129,9 +129,8 @@ export const getVariables = (
     (accVariables: any = {}, currentRuleVariable: ProgramRuleVariable) => {
       let variable;
       const { programRuleVariableSourceType } = currentRuleVariable;
-      const variableKey: string = currentRuleVariable.displayName;
+      const variableKey: string = currentRuleVariable.name;
       const getterFunction = functionMapper[programRuleVariableSourceType];
-
       if (!getterFunction) {
         // log.error(
         //   `Unknown programRuleVariableSourceType:${currentRuleVariable.programRuleVariableSourceType}`
@@ -149,29 +148,26 @@ export const getVariables = (
         accVariables[variableKey] = variable;
         return accVariables;
       }
-
       if (
         variableSourceTypesDataElementSpecific[programRuleVariableSourceType]
       ) {
         variable = preCheckDataElement(currentRuleVariable, dataElements);
       }
-
       if (variable) {
         accVariables[variableKey] = variable;
         return accVariables;
       }
-
       variable = getterFunction(
         currentRuleVariable,
         dataElements,
         eventData.dataValues,
         optionSets
       );
-
+      console.log('Here4');
       if (!variable) {
         variable = postcheckDataElement(currentRuleVariable, dataElements);
       }
-
+      console.log('Here5:', variable);
       if (variable) {
         accVariables[variableKey] = variable;
       }

@@ -74,7 +74,6 @@ export interface ProgramRule {
 
 export interface ProgramRuleVariable {
   id: string;
-  displayName?: string;
   programRuleVariableSourceType: string;
   dataElement?: { id: string };
   trackedEntityAttribute?: { id: string };

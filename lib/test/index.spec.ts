@@ -3826,15 +3826,85 @@ describe('Given parameters passed into rule engine', () => {
     fixture.optionSets.forEach((optionSet)=>{
       //console.log(optionSet);
     })
+    var programRules = [
+      {
+        "created": "2020-03-10T00:41:12.766",
+        "lastUpdated": "2020-03-26T10:20:26.126",
+        "name": "Hide contact symptoms if no symptoms present (contact tracing)",
+        "id": "MKx0MWOs8ET",
+        "description": "Hide contact symptoms if no symptoms present (contact tracing)",
+        "condition": "#{contactsymptoms} != 'Yes'",
+        "lastUpdatedBy": {
+          "id": "M5zQapPyTZI"
+        },
+        "program": {
+          "id": "DM9n1bUw8W8"
+        },
+        "programRuleActions": [
+          {
+            "id": "n6Q1GIJnMpv"
+          },
+          {
+            "id": "T12MIE5Lxnp"
+          },
+          {
+            "id": "XFqKjeyeAPS"
+          },
+          {
+            "id": "FzjR5ohOgqc"
+          },
+          {
+            "id": "jSLdim45Z7G"
+          },
+          {
+            "id": "cseBOJujJys"
+          },
+          {
+            "id": "hHgGR9vNEvE"
+          },
+          {
+            "id": "i7K0WS2EOZn"
+          },
+          {
+            "id": "GeEmAfN97ir"
+          },
+          {
+            "id": "xXnMzAWQog6"
+          },
+          {
+            "id": "NzAvLDMiMIt"
+          },
+          {
+            "id": "SAEOlT16S60"
+          }
+        ]
+      }
+    ];
+    var programRuleVariables = [{
+      "created": "2020-03-10T00:38:44.962",
+      "lastUpdated": "2020-04-02T05:29:08.824",
+      "name": "contactsymptoms",
+      "id": "So95ttB0dEu",
+      "programRuleVariableSourceType": "DATAELEMENT_CURRENT_EVENT",
+      "useCodeForOptionSet": true,
+      "lastUpdatedBy": {
+        "id": "M5zQapPyTZI"
+      },
+      "program": {
+        "id": "DM9n1bUw8W8"
+      },
+      "dataElement": {
+        "id": "JGnHr6WI3AY"
+      }
+    }]
     let results: ProgramRuleAction[] = executeWithAction(
       event,
       dataElements,
-      fixture.programRules,
-      fixture.programRuleVariables,
+      programRules,
+      programRuleVariables,
       fixture.programRuleActions,
       optionSets
     );
-    console.log('Results:',results);
-    expect(results.length).toEqual(0);
+    expect(results.length).toEqual(12);
   });
 });
