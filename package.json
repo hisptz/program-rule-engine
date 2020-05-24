@@ -34,7 +34,7 @@
     "jsdoc": "^3.6.4",
     "terser-webpack-plugin": "^3.0.1",
     "ts-jest": "^25.5.1",
-    "ts-loader": "^7.0.4",
+    "ts-loader": "^7.0.5",
     "typedoc": "^0.17.7",
     "typedoc-webpack-plugin": "^1.1.4",
     "typescript": "^3.9.3",
