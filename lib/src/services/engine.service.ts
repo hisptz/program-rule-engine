@@ -1,4 +1,7 @@
-import { ruleExcutionService, ruleExcutionWithActionService } from '../services/execution.service';
+import {
+  ruleExcutionService,
+  ruleExecutionWithActionService,
+} from '../services/execution.service';
 import {
   EventData,
   ProgramRule,
@@ -6,7 +9,7 @@ import {
   DataElements,
   OptionSets,
   EventValue,
-  ProgramRuleAction
+  ProgramRuleAction,
 } from '../interfaces/rules-engine.types';
 
 export const execute = (
@@ -44,7 +47,7 @@ export const executeWithAction = (
   programRules: ProgramRule[],
   programRuleVariables: ProgramRuleVariable[],
   programRuleActions: ProgramRuleAction[],
-  optionSets: OptionSets,
+  optionSets: OptionSets
 ): ProgramRuleAction[] => {
   const { dataValues = [] } = eventData;
   const eventValues = dataValues.reduce((acc: any, cur: EventValue) => {
@@ -52,8 +55,9 @@ export const executeWithAction = (
     acc[dataElement] = value;
     return acc;
   }, {});
+
   const transformedData = { ...eventData, dataValues: eventValues };
-  const actions: ProgramRuleAction[] = ruleExcutionWithActionService(
+  const actions: ProgramRuleAction[] = ruleExecutionWithActionService(
     transformedData,
     dataElements,
     programRules,

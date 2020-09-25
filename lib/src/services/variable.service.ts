@@ -163,11 +163,11 @@ export const getVariables = (
         eventData.dataValues,
         optionSets
       );
-      console.log('Here4');
+
       if (!variable) {
         variable = postcheckDataElement(currentRuleVariable, dataElements);
       }
-      console.log('Here5:', variable);
+
       if (variable) {
         accVariables[variableKey] = variable;
       }

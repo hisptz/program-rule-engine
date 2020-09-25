@@ -67,7 +67,7 @@ export const ruleExcutionService = (
   return eventData;
 };
 
-export const ruleExcutionWithActionService = (
+export const ruleExecutionWithActionService = (
   eventData: EventData,
   dataElements: DataElements,
   programRules: Array<ProgramRule>,
@@ -75,12 +75,13 @@ export const ruleExcutionWithActionService = (
   allProgramRuleActions: ProgramRuleAction[],
   optionSets: OptionSets
 ) => {
-  let actions: ProgramRuleAction[] = []
-  if (!programRules.length) {
+  let actions: ProgramRuleAction[] = [];
+  if (!programRules || programRules.length === 0) {
     return actions;
   }
 
   const rules: ProgramRule[] = orderRulesByPriority(programRules);
+
   let variableHash = getVariables(
     eventData,
     programRules,
@@ -91,14 +92,13 @@ export const ruleExcutionWithActionService = (
 
   rules.forEach((rule) => {
     let { condition: expression, programRuleActions } = rule;
+
     let canRuleEvaluate = false;
     if (expression) {
       if (expression.includes('{')) {
         expression = replaceVariables(expression, variableHash);
       }
-      if(rule.id === 'MKx0MWOs8ET'){
-        console.log(expression);
-      }
+
       canRuleEvaluate = runRuleExpression(
         expression,
         rule.condition,
@@ -110,11 +110,18 @@ export const ruleExcutionWithActionService = (
       //   `Rule id: ${rule.id} and name: ${rule.name} had no condition specified. Please check rule configuration.`
       // );
     }
-    if (canRuleEvaluate) {
-      programRuleActions.forEach((action) => {
-        actions = actions.concat(allProgramRuleActions.filter((programRuleAction)=>programRuleAction.id===action.id));
-      });
-    }
+
+    actions = [
+      ...actions,
+      ...programRuleActions.map((programRuleAction) => {
+        return {
+          ...programRuleAction,
+          programRuleActionType: canRuleEvaluate
+            ? programRuleAction.programRuleActionType
+            : '',
+        };
+      }),
+    ];
   });
 
   return actions;

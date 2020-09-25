@@ -14,38 +14,37 @@ export interface ProgramRuleEffect {
   ineffect: boolean;
 }
 export interface ProgramRuleAction {
-  created?:                 string;
-  lastUpdated?:             string;
-  id:                      string;
-  programRuleActionType?:   string;
-  data?:                   string;
-  lastUpdatedBy?:           {id: string;};
-  trackedEntityAttribute?: {id: string;};
-  programRule?:             {id: string;};
-  dataElement?:            {id: string;};
-  content?:                string;
-  optionGroup?:            {id: string;};
-  templateUid?:            string;
-  location?:               string;
-  programStageSection?:    {id: string;};
-  programStage?:           {id: string;};
+  created?: string;
+  lastUpdated?: string;
+  id: string;
+  programRuleActionType?: string;
+  data?: string;
+  lastUpdatedBy?: { id: string };
+  trackedEntityAttribute?: { id: string };
+  programRule?: { id: string };
+  dataElement?: { id: string };
+  content?: string;
+  optionGroup?: { id: string };
+  templateUid?: string;
+  location?: string;
+  programStageSection?: { id: string };
+  programStage?: { id: string };
 }
 
 export enum ProgramRuleActionType {
-  Assign = "ASSIGN",
-  Displaykeyvaluepair = "DISPLAYKEYVALUEPAIR",
-  Displaytext = "DISPLAYTEXT",
-  Hidefield = "HIDEFIELD",
-  Hideoptiongroup = "HIDEOPTIONGROUP",
-  Hideprogramstage = "HIDEPROGRAMSTAGE",
-  Hidesection = "HIDESECTION",
-  Schedulemessage = "SCHEDULEMESSAGE",
-  Sendmessage = "SENDMESSAGE",
-  Showerror = "SHOWERROR",
-  Showwarning = "SHOWWARNING",
-  Warningoncomplete = "WARNINGONCOMPLETE",
+  Assign = 'ASSIGN',
+  Displaykeyvaluepair = 'DISPLAYKEYVALUEPAIR',
+  Displaytext = 'DISPLAYTEXT',
+  Hidefield = 'HIDEFIELD',
+  Hideoptiongroup = 'HIDEOPTIONGROUP',
+  Hideprogramstage = 'HIDEPROGRAMSTAGE',
+  Hidesection = 'HIDESECTION',
+  Schedulemessage = 'SCHEDULEMESSAGE',
+  Sendmessage = 'SENDMESSAGE',
+  Showerror = 'SHOWERROR',
+  Showwarning = 'SHOWWARNING',
+  Warningoncomplete = 'WARNINGONCOMPLETE',
 }
-
 
 export interface User {
   id: string;
