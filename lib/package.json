@@ -1,6 +1,6 @@
 {
   "name": "@iapps/dhis2-program-rule-engine",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hisptz/program-rule-engine.git"
