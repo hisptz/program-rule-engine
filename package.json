@@ -9,7 +9,8 @@
     "build": "webpack --env prod",
     "test": "jest",
     "docs": "node_modules/.bin/jsdoc -c jsdoc.json",
-    "publish": "npm run build && cd dist && npm publish --access public"
+    "publish": "npm run build && cd dist && npm publish --access public",
+    "pack": "npm  run build && cd dist && npm pack"
   },
   "repository": {
     "type": "git",

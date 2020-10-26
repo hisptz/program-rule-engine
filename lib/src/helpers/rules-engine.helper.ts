@@ -142,32 +142,32 @@ export const replaceVariables = (
   }
 
   // Check if it has enviroment variable
-  if (evalExpression.includes('A{')) {
-    // Get every variable name in the expression;
-    const variablesInexpression = evalExpression.match(/A{\w+.?\w*}/g);
+  // if (evalExpression.includes('A{')) {
+  //   // Get every variable name in the expression;
+  //   const variablesInexpression = evalExpression.match(/A{\w+.?\w*}/g);
 
-    (variablesInexpression || []).forEach((expressionVariable) => {
-      // Strip away any prefix and postfix signs from the variable name
-      const strippedExprVar = expressionVariable
-        .replace('A{', '')
-        .replace('}', '');
+  //   (variablesInexpression || []).forEach((expressionVariable) => {
+  //     // Strip away any prefix and postfix signs from the variable name
+  //     const strippedExprVar = expressionVariable
+  //       .replace('A{', '')
+  //       .replace('}', '');
 
-      if (
-        isDefined(variablesHash[strippedExprVar]) &&
-        variablesHash[strippedExprVar].variablePrefix === 'A'
-      ) {
-        //Replace all occurrences of the variable name(hence using regex replacement):
-        evalExpression = evalExpression.replace(
-          new RegExp('A{' + strippedExprVar + '}', 'g'),
-          variablesHash[strippedExprVar].variableValue
-        );
-      } else {
-        // log.warn(
-        //   `Expression ${evalExpression} conains attribute  ${strippedExprVar} - but this attribute is not defined.`
-        // );
-      }
-    });
-  }
+  //     if (
+  //       isDefined(variablesHash[strippedExprVar]) &&
+  //       variablesHash[strippedExprVar].variablePrefix === 'A'
+  //     ) {
+  //       //Replace all occurrences of the variable name(hence using regex replacement):
+  //       evalExpression = evalExpression.replace(
+  //         new RegExp('A{' + strippedExprVar + '}', 'g'),
+  //         variablesHash[strippedExprVar].variableValue
+  //       );
+  //     } else {
+  //       // log.warn(
+  //       //   `Expression ${evalExpression} conains attribute  ${strippedExprVar} - but this attribute is not defined.`
+  //       // );
+  //     }
+  //   });
+  // }
 
   return evalExpression;
 };
