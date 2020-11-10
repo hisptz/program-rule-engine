@@ -11,7 +11,7 @@ import {
   ProgramRuleVariable,
   Constant,
   OptionSets,
-  Variable
+  Variable,
 } from '../interfaces/rules-engine.types';
 import variablePrefixes from '../constants/variable-prefix.constant';
 
@@ -23,8 +23,8 @@ const EMPTY_STRING = '';
 
 const DATAELEMENT_CURRENT_EVENT = 'DATAELEMENT_CURRENT_EVENT';
 
-const variableSourceTypesDataElementSpecific:{[x:string]:string} = {
-  DATAELEMENT_CURRENT_EVENT
+const variableSourceTypesDataElementSpecific: { [x: string]: string } = {
+  DATAELEMENT_CURRENT_EVENT,
 };
 
 export const buildVariable = (
@@ -36,7 +36,9 @@ export const buildVariable = (
   variableEventDate?: string,
   useNameForOptionSet?: boolean
 ): Variable => {
-  const processedValues = allValues ? allValues.map(alternateValue => processValue(alternateValue, type)) : null;
+  const processedValues = allValues
+    ? allValues.map((alternateValue) => processValue(alternateValue, type))
+    : null;
 
   return {
     variableValue: processValue(value, type),
@@ -45,7 +47,7 @@ export const buildVariable = (
     hasValue: valueFound,
     variableEventDate,
     variablePrefix,
-    allValues: processedValues
+    allValues: processedValues,
   };
 };
 
@@ -62,7 +64,10 @@ const getDataElementValueForVariable = (
     dataElements &&
     dataElements[dataElementId] &&
     dataElements[dataElementId].optionSetId
-    ? getoptionSetName(optionSets[dataElements[dataElementId].optionSetId].options, value)
+    ? getoptionSetName(
+        optionSets[dataElements[dataElementId].optionSetId].options,
+        value
+      )
     : value;
 };
 
@@ -73,7 +78,8 @@ export const getVariableFromCurrentEvent = (
   optionSets: OptionSets
 ): Variable => {
   // $FlowFixMe
-  const dataElementId: string = programRuleVariable.dataElement && programRuleVariable.dataElement.id;
+  const dataElementId: string =
+    programRuleVariable.dataElement && programRuleVariable.dataElement.id;
 
   const dataElement: DataElement = dataElements[dataElementId];
 
@@ -81,7 +87,11 @@ export const getVariableFromCurrentEvent = (
     return null;
   }
   const dataElementValue = eventData && eventData[dataElementId];
-  if (!dataElementValue && dataElementValue !== 0 && dataElementValue !== false) {
+  if (
+    !dataElementValue &&
+    dataElementValue !== 0 &&
+    dataElementValue !== false
+  ) {
     return null;
   }
 
@@ -104,8 +114,8 @@ export const getVariableFromCurrentEvent = (
   );
 };
 
-export const functionMapper:{[x:string]:Function} = {
-  "DATAELEMENT_CURRENT_EVENT": getVariableFromCurrentEvent
+export const functionMapper: { [x: string]: Function } = {
+  DATAELEMENT_CURRENT_EVENT: getVariableFromCurrentEvent,
 };
 
 export const getVariables = (
@@ -115,61 +125,74 @@ export const getVariables = (
   dataElements: DataElements,
   optionSets: OptionSets
 ) => {
-  const variables = programRuleVariables.reduce((accVariables:any = {}, currentRuleVariable: ProgramRuleVariable) => {
-    let variable;
-    const { programRuleVariableSourceType } = currentRuleVariable;
-    const variableKey: string = currentRuleVariable.displayName;
-    const getterFunction = functionMapper[programRuleVariableSourceType];
+  const variables = programRuleVariables.reduce(
+    (accVariables: any = {}, currentRuleVariable: ProgramRuleVariable) => {
+      let variable;
+      const { programRuleVariableSourceType } = currentRuleVariable;
+      const variableKey: string = currentRuleVariable.name;
+      const getterFunction = functionMapper[programRuleVariableSourceType];
+      if (!getterFunction) {
+        // log.error(
+        //   `Unknown programRuleVariableSourceType:${currentRuleVariable.programRuleVariableSourceType}`
+        // );
+        variable = buildVariable(
+          EMPTY_STRING,
+          null,
+          typeKeys.TEXT,
+          false,
+          variablePrefixes.DATAELEMENT,
+          null,
+          currentRuleVariable.useNameForOptionSet
+        );
 
-    if (!getterFunction) {
-      log.error(`Unknown programRuleVariableSourceType:${currentRuleVariable.programRuleVariableSourceType}`);
-      variable = buildVariable(
-        EMPTY_STRING,
-        null,
-        typeKeys.TEXT,
-        false,
-        variablePrefixes.DATAELEMENT,
-        null,
-        currentRuleVariable.useNameForOptionSet
+        accVariables[variableKey] = variable;
+        return accVariables;
+      }
+      if (
+        variableSourceTypesDataElementSpecific[programRuleVariableSourceType]
+      ) {
+        variable = preCheckDataElement(currentRuleVariable, dataElements);
+      }
+      if (variable) {
+        accVariables[variableKey] = variable;
+        return accVariables;
+      }
+      variable = getterFunction(
+        currentRuleVariable,
+        dataElements,
+        eventData.dataValues,
+        optionSets
       );
 
-      accVariables[variableKey] = variable;
+      if (!variable) {
+        variable = postcheckDataElement(currentRuleVariable, dataElements);
+      }
+
+      if (variable) {
+        accVariables[variableKey] = variable;
+      }
       return accVariables;
-    }
-
-    if (variableSourceTypesDataElementSpecific[programRuleVariableSourceType]) {
-      variable = preCheckDataElement(currentRuleVariable, dataElements);
-    }
-
-    if (variable) {
-      accVariables[variableKey] = variable;
-      return accVariables;
-    }
-
-    variable = getterFunction(currentRuleVariable, dataElements, eventData.dataValues, optionSets);
-
-    if (!variable) {
-      variable = postcheckDataElement(currentRuleVariable, dataElements);
-    }
-
-    if (variable) {
-      accVariables[variableKey] = variable;
-    }
-    return accVariables;
-  }, {});
+    },
+    {}
+  );
 
   return { ...variables, ...getConstantVariables([]) };
 };
 
-export const preCheckDataElement = (programVariable: ProgramRuleVariable, dataElements?: DataElements) => {
-  const dataElementId = programVariable.dataElement && programVariable.dataElement.id;
-  const dataElement = dataElementId && dataElements && dataElements[dataElementId];
+export const preCheckDataElement = (
+  programVariable: ProgramRuleVariable,
+  dataElements?: DataElements
+) => {
+  const dataElementId =
+    programVariable.dataElement && programVariable.dataElement.id;
+  const dataElement =
+    dataElementId && dataElements && dataElements[dataElementId];
   if (!dataElement) {
-    log.warn(
-      `Variable id:${programVariable.id} name:${
-        programVariable.displayName
-      } contains an invalid dataelement id (id: ${dataElementId || ''})`
-    );
+    // log.warn(
+    //   `Variable id:${programVariable.id} name:${
+    //     programVariable.displayName
+    //   } contains an invalid dataelement id (id: ${dataElementId || ''})`
+    // );
     return buildVariable(
       EMPTY_STRING,
       null,
@@ -183,8 +206,12 @@ export const preCheckDataElement = (programVariable: ProgramRuleVariable, dataEl
   return null;
 };
 
-export const postcheckDataElement = (programVariable: ProgramRuleVariable, dataElements: DataElements) => {
-  const dataElementId = programVariable.dataElement && programVariable.dataElement.id;
+export const postcheckDataElement = (
+  programVariable: ProgramRuleVariable,
+  dataElements: DataElements
+) => {
+  const dataElementId =
+    programVariable.dataElement && programVariable.dataElement.id;
   // $FlowFixMe
   const dataElement: DataElement = dataElements[dataElementId];
   return buildVariable(
@@ -200,7 +227,7 @@ export const postcheckDataElement = (programVariable: ProgramRuleVariable, dataE
 
 export const getConstantVariables = (constants?: Constant[]) => {
   const constantVariables = constants
-    ? constants.reduce((accConstantVariables:any, constant) => {
+    ? constants.reduce((accConstantVariables: any, constant) => {
         accConstantVariables[constant.id] = buildVariable(
           constant.value,
           null,

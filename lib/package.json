@@ -1,11 +1,11 @@
 {
-  "name": "typescript-library",
-  "version": "1.0.0",
+  "name": "@iapps/dhis2-program-rule-engine",
+  "version": "1.0.0-alpha.8",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hisptz/program-rule-engine.git"
   },
-  "author": "Rajab Mkomwa",
+  "author": "UDSM DHIS2",
   "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/hisptz/program-rule-engine/issues"

@@ -4,7 +4,10 @@ import { d2FuctionsVariables, d2FunctionsEval } from './d2-functions.helper';
 import { isDefined } from './d2-utils.helper';
 import { Variable } from '../interfaces/rules-engine.types';
 
-export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Variable}): string => {
+export const dhisD2Functions = (
+  expression: string,
+  variableHash: { [x: string]: Variable }
+): string => {
   let evalExpression = expression;
   if (isDefined && evalExpression.includes('d2:')) {
     let continueLooping = true;
@@ -12,18 +15,21 @@ export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Va
     for (let i = 0; i < 1 && continueLooping; i++) {
       let expressionUpdated = false;
       let brokenExecution = false;
-      d2FuctionsVariables.forEach(d2FnVar => {
+      d2FuctionsVariables.forEach((d2FnVar) => {
         //Select the function call, with any number of parameters inside single quotations, or number parameters witout quotations
         let d2FnRegex = new RegExp(
-          d2FnVar.name + "\\( *(([\\d/\\*\\+\\-%. ]+)|( *'[^']*'))*( *, *(([\\d/\\*\\+\\-%. ]+)|'[^']*'))* *\\)",
+          d2FnVar.name +
+            "\\( *(([\\d/\\*\\+\\-%. ]+)|( *'[^']*'))*( *, *(([\\d/\\*\\+\\-%. ]+)|'[^']*'))* *\\)",
           'g'
         );
         let fnRegexCallArr = evalExpression.match(d2FnRegex);
 
         if (fnRegexCallArr && fnRegexCallArr.length) {
-          fnRegexCallArr.forEach(fnRegexCall => {
+          fnRegexCallArr.forEach((fnRegexCall) => {
             // Remove the function name and paranthesis and remove whitespaces:
-            const fnParameters = fnRegexCall.replace(/(^[^\(]+\()|\)$/g, '').trim();
+            const fnParameters = fnRegexCall
+              .replace(/(^[^\(]+\()|\)$/g, '')
+              .trim();
 
             // Split into single parameters:
             const parameters = fnParameters.match(/(('[^']+')|([^,]+))/g);
@@ -33,7 +39,7 @@ export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Va
               //But we are only checking parameters where the dhisFunction actually has a defined set of parameters(concatenate, for example, does not have a fixed number);
               const numOfParameters = parameters ? parameters.length : 0;
               if (numOfParameters !== d2FnVar.parameters) {
-                log.warn(d2FnVar.name + ' was called with the incorrect number of parameters');
+                // log.warn(d2FnVar.name + ' was called with the incorrect number of parameters');
 
                 //Mark this function call as broken:
                 brokenExecution = true;
@@ -41,9 +47,18 @@ export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Va
             }
 
             //In case the function call is nested, the parameter itself contains an expression, run the expression.
-            if (!brokenExecution && isDefined(parameters) && parameters !== null) {
+            if (
+              !brokenExecution &&
+              isDefined(parameters) &&
+              parameters !== null
+            ) {
               for (var i = 0; i < parameters.length; i++) {
-                parameters[i] = runRuleExpression(parameters[i], d2FnVar.name, `parameter:${i}`, variableHash);
+                parameters[i] = runRuleExpression(
+                  parameters[i],
+                  d2FnVar.name,
+                  `parameter:${i}`,
+                  variableHash
+                );
               }
             }
 
@@ -53,7 +68,12 @@ export const dhisD2Functions = (expression: string, variableHash: {[x:string]:Va
               evalExpression = evalExpression.replace(fnRegexCall, 'false');
               expressionUpdated = true;
             }
-            const results = d2FunctionsEval[d2FnVar.name](evalExpression, parameters, variableHash, fnRegexCall);
+            const results = d2FunctionsEval[d2FnVar.name](
+              evalExpression,
+              parameters,
+              variableHash,
+              fnRegexCall
+            );
 
             evalExpression = results.expression;
             expressionUpdated = results.expressionUpdated;
@@ -82,8 +102,15 @@ export const runRuleExpression = (
   identifier: string,
   variablesHash: any
 ) => {
-  const dhisfunctionsevaluated = dhisD2Functions(expression, variablesHash);
-  const canEvalRule = eval(dhisfunctionsevaluated);
+  const dhisfunctionsevaluated: string = dhisD2Functions(
+    expression,
+    variablesHash
+  );
+  try {
+    const canEvalRule = eval(dhisfunctionsevaluated);
 
-  return canEvalRule;
+    return canEvalRule;
+  } catch (e) {
+    return false;
+  }
 };
