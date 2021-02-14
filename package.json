@@ -48,7 +48,7 @@
   "dependencies": {
     "d2-utilizr": "^0.2.16",
     "lodash": "^4.17.20",
-    "loglevel": "^1.6.8",
+    "loglevel": "^1.7.1",
     "moment": "^2.27.0"
   },
   "config": {
