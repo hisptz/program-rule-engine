@@ -30,7 +30,7 @@
     "copy-webpack-plugin": "^6.4.1",
     "cz-conventional-changelog": "^3.3.0",
     "docdash": "^1.1.1",
-    "husky": "^4.2.5",
+    "husky": "^5.0.9",
     "jest": "^25.5.1",
     "jsdoc": "^3.6.6",
     "terser-webpack-plugin": "^4.1.0",
