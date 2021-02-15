@@ -43,7 +43,7 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
-    "yargs": "^15.4.1"
+    "yargs": "^16.2.0"
   },
   "dependencies": {
     "d2-utilizr": "^0.2.16",
